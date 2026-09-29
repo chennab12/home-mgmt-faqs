@@ -1,0 +1,12 @@
+"""Animated home-system memory cues with reduced-motion support."""
+from html import escape
+from streamlit.components.v1 import html
+
+def show(title,stages):
+    blocks=[]
+    for i,label in enumerate(stages):
+        x=24+191*i
+        blocks.append(f'<g class="card c{i}"><rect x="{x}" y="65" width="168" height="85" rx="15" fill="#fff" stroke="#a9c8d0"/><text x="{x+13}" y="98" class="num">{i+1:02}</text><text x="{x+13}" y="128" class="label">{escape(label)}</text></g>')
+    arrows=''.join(f'<path d="M{192+191*i} 108 h22" stroke="#2b7182" stroke-width="3" marker-end="url(#arrow)"/>' for i in range(3))
+    page=f'''<!doctype html><html><head><meta charset="utf-8"><style>body{{margin:0;font-family:system-ui,Arial,sans-serif}}.wrap{{overflow-x:auto;border:1px solid #bbd9df;border-radius:16px;background:linear-gradient(110deg,#edf8fa,#fff7eb)}}svg{{width:100%;min-width:760px;height:auto;display:block}}.title{{font-size:21px;font-weight:750;fill:#214e5c}}.label{{font-size:14px;font-weight:650;fill:#214e5c}}.num{{font-size:17px;font-weight:800;fill:#2b7182}}.small{{font-size:14px;fill:#426674}}.card{{animation:glow 4.8s infinite}}.c1{{animation-delay:1.2s}}.c2{{animation-delay:2.4s}}.c3{{animation-delay:3.6s}}.house{{animation:bob 2.2s ease-in-out infinite}}@keyframes glow{{20%{{filter:drop-shadow(0 4px 6px #9bcbd6)}}}}@keyframes bob{{50%{{transform:translateY(-6px)}}}}@media(prefers-reduced-motion:reduce){{*{{animation:none!important}}}}</style></head><body><div class="wrap"><svg viewBox="0 0 930 266" role="img" aria-label="{escape(title)}: {escape(' to '.join(stages))}"><defs><marker id="arrow" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto"><path d="M0 0 L7 3.5 L0 7" fill="#2b7182"/></marker></defs><text x="24" y="38" class="title">{escape(title)} · visual memory cue</text>{arrows}{''.join(blocks)}<rect x="24" y="176" width="655" height="65" rx="13" fill="white" stroke="#bbd9df"/><text x="40" y="201" class="small">Record the issue, protect people and property, then verify repair.</text><text x="40" y="225" class="small">For the rental, coordinate with the tenant and check local rules.</text><g class="house"><path d="M780 207 l44 -42 44 42" fill="none" stroke="#2b7182" stroke-width="10" stroke-linecap="round"/><rect x="794" y="205" width="60" height="45" rx="4" fill="#77adba"/><rect x="814" y="222" width="20" height="28" fill="#fff"/></g></svg></div></body></html>'''
+    html(page,height=280,scrolling=False)
